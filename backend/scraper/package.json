@@ -1,0 +1,10 @@
+{
+  "name": "yandex-maps-reviews-scraper",
+  "version": "1.0.0",
+  "description": "Scrapes reviews from Yandex Maps organization card",
+  "main": "scraper.js",
+  "type": "module",
+  "dependencies": {
+    "puppeteer": "^22.6.0"
+  }
+}

@@ -1,0 +1,90 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: ymaps-backend
+    restart: unless-stopped
+    working_dir: /var/www/html
+    command: ["php-fpm"]
+    volumes:
+      - ./backend:/var/www/html
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: yandex_reviews
+      DB_USERNAME: laravel
+      DB_PASSWORD: secret_password
+      QUEUE_CONNECTION: database
+    depends_on:
+      - db
+
+  queue:
+    build:
+      context: ./backend
+    container_name: ymaps-queue
+    restart: unless-stopped
+    working_dir: /var/www/html
+    command: ["php", "artisan", "queue:work", "--verbose", "--tries=3", "--timeout=120"]
+    volumes:
+      - ./backend:/var/www/html
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: yandex_reviews
+      DB_USERNAME: laravel
+      DB_PASSWORD: secret_password
+      QUEUE_CONNECTION: database
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx:alpine
+    container_name: ymaps-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./backend:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+      - frontend
+
+  frontend:
+    image: node:20-alpine
+    container_name: ymaps-frontend
+    restart: unless-stopped
+    working_dir: /app
+    command: ["sh", "-c", "npm install && npm run dev -- --host 0.0.0.0 --port 5173"]
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+  db:
+    image: mysql:8.0
+    container_name: ymaps-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_secure_password
+      MYSQL_DATABASE: yandex_reviews
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
