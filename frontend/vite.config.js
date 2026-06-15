@@ -16,7 +16,8 @@ export default defineConfig({
     // Add HMR clientPort configuration to ensure HMR works seamlessly behind Nginx reverse proxy
     hmr: {
       clientPort: 80
-    }
+    },
+    allowedHosts: true
   },
   preview: {
     allowedHosts: true
