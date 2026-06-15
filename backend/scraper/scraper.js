@@ -71,9 +71,13 @@ async function scrapeYandexReviews(url, maxReviews = 600) {
 
         await page.evaluate(async (targetLimit) => {
             const findScrollable = () => {
-                let el = document.querySelector('.reviews-view__content');
+                let el = document.querySelector('.scroll__container');
+                if (el) return el;
+                el = document.querySelector('div[class*="scroll__container"]');
                 if (el) return el;
                 el = document.querySelector('div[class*="scrollable"]');
+                if (el) return el;
+                el = document.querySelector('.reviews-view__content');
                 if (el) return el;
                 const review = document.querySelector('.business-review-view');
                 if (review) return review.parentElement;
