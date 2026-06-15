@@ -11,7 +11,7 @@ export default defineConfig({
     },
   },
   build: {
-    cssMinify: 'esbuild'
+    cssMinify: false
   },
   server: {
     host: '0.0.0.0',
