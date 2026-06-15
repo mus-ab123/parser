@@ -106,8 +106,8 @@ function getStatusLabel(status) {
   position: fixed;
   left: 0;
   top: 0;
-  backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
   z-index: 10;
 }
 

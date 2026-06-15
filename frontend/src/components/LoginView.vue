@@ -92,8 +92,8 @@ async function handleSubmit() {
   border-radius: 16px;
   padding: 40px;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   animation: fadeIn 0.4s ease-out;
   position: relative;
   overflow: hidden;

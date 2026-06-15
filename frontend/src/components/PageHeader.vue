@@ -92,8 +92,8 @@ const canRefresh = computed(() => {
   padding: 30px;
   background: rgba(30, 37, 51, 0.2);
   border-bottom: 1px solid var(--border-color);
-  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   gap: 20px;
 }
 
